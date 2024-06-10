@@ -2,6 +2,7 @@ package vn.hoidanit.jobhunter.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import vn.hoidanit.jobhunter.util.SecurityUtil;
@@ -18,7 +19,9 @@ public class User {
     private long id;
 
     private String name;
+    @NotBlank(message = "Email không được để trống")
     private String email;
+    @NotBlank(message = "Password không được để trống")
     private String password;
     private int age;
     @Enumerated(EnumType.STRING)
