@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import vn.hoidanit.jobhunter.domain.Company;
 import vn.hoidanit.jobhunter.domain.dto.ResultPaginationDTO;
 import vn.hoidanit.jobhunter.service.CompanyService;
+import vn.hoidanit.jobhunter.util.anotation.ApiMessage;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +29,7 @@ public class CompanyController {
         return ResponseEntity.status(HttpStatus.OK).body(this.companyService.handleCreateCompany(company));
     }
     @GetMapping("/companies")
+    @ApiMessage("fetch all company")
     public ResponseEntity<ResultPaginationDTO> getAllCompany(@Filter Specification<Company> spec, Pageable pageable)
     {
         return ResponseEntity.status(HttpStatus.OK).body(this.companyService.fetchAllCompany(spec, pageable));
