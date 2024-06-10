@@ -28,28 +28,29 @@ public class User {
     private GenderEnum gender;
 
     private String address;
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String refreshToken;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss a", timezone = "GMT+7")
-    private Instant createAt;
-    private Instant updateAt;
-    private String createBy;
-    private String updateBy;
+    private Instant createdAt;
+    private Instant updatedAt;
+    private String createdBy;
+    private String updatedBy;
     // hibernate sẽ tự động gán giá trị cho createAt
     @PrePersist
     public void handleBeforeCreate() {
         // lấy người tạo từ SecurityContextHolder
-        this.createBy = SecurityUtil.getCurrentUserLogin().isPresent()==true?
+        this.createdBy = SecurityUtil.getCurrentUserLogin().isPresent()==true?
                 SecurityUtil.getCurrentUserLogin().get()
                 :"";
-        this.createAt = Instant.now();
+        this.createdAt = Instant.now();
     }
     @PreUpdate
     public void handleBeforeUpdate() {
         // lấy người cập nhật từ SecurityContextHolder
-        this.updateBy = SecurityUtil.getCurrentUserLogin().isPresent()==true?
+        this.updatedBy = SecurityUtil.getCurrentUserLogin().isPresent()==true?
                 SecurityUtil.getCurrentUserLogin().get()
                 :"";
-        this.updateAt = Instant.now();
+        this.updatedAt = Instant.now();
     }
 
 

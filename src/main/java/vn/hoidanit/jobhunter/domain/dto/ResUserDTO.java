@@ -14,11 +14,12 @@ import java.time.Instant;
 @NoArgsConstructor
 public class ResUserDTO {
     private long id;
-    private String name;
     private String email;
-    private int age;
+    private String name;
     private GenderEnum gender;
     private String address;
-    private Instant createAt;
-    private Instant updateAt;
+    private int age;
+    private Instant updatedAt;
+    private Instant createdAt;
+
 }
