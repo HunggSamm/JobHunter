@@ -1,11 +1,15 @@
 package vn.hoidanit.jobhunter.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import vn.hoidanit.jobhunter.util.SecurityUtil;
+import vn.hoidanit.jobhunter.util.constant.GenderEnum;
 
+import java.time.Instant;
+@Setter
+@Getter
 @Entity
 @Table(name = "users")
 public class User {
@@ -16,37 +20,34 @@ public class User {
     private String name;
     private String email;
     private String password;
+    private int age;
+    @Enumerated(EnumType.STRING)
+    private GenderEnum gender;
 
-    public String getName() {
-        return name;
+    private String address;
+    private String refreshToken;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss a", timezone = "GMT+7")
+    private Instant createAt;
+    private Instant updateAt;
+    private String createBy;
+    private String updateBy;
+    // hibernate sẽ tự động gán giá trị cho createAt
+    @PrePersist
+    public void handleBeforeCreate() {
+        // lấy người tạo từ SecurityContextHolder
+        this.createBy = SecurityUtil.getCurrentUserLogin().isPresent()==true?
+                SecurityUtil.getCurrentUserLogin().get()
+                :"";
+        this.createAt = Instant.now();
+    }
+    @PreUpdate
+    public void handleBeforeUpdate() {
+        // lấy người cập nhật từ SecurityContextHolder
+        this.updateBy = SecurityUtil.getCurrentUserLogin().isPresent()==true?
+                SecurityUtil.getCurrentUserLogin().get()
+                :"";
+        this.updateAt = Instant.now();
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
 }
