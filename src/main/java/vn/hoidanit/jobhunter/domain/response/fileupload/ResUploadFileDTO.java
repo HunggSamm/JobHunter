@@ -1,4 +1,4 @@
-package vn.hoidanit.jobhunter.domain.response.file;
+package vn.hoidanit.jobhunter.domain.response.fileupload;
 
 import java.time.Instant;
 
