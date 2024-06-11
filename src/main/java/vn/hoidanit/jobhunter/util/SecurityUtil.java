@@ -25,7 +25,7 @@ import org.springframework.stereotype.Service;
 
 import com.nimbusds.jose.util.Base64;
 
-import vn.hoidanit.jobhunter.domain.dto.ResLoginDTO;
+import vn.hoidanit.jobhunter.domain.response.ResLoginDTO;
 
 @Service
 public class SecurityUtil {
@@ -59,12 +59,12 @@ public class SecurityUtil {
 
         // @formatter:off
         JwtClaimsSet claims = JwtClaimsSet.builder()
-                .issuedAt(now)
-                .expiresAt(validity)
-                .subject(email)
-                .claim("user", dto)
-                .claim("permission", listAuthority)
-                .build();
+            .issuedAt(now)
+            .expiresAt(validity)
+            .subject(email)
+            .claim("user", dto)
+            .claim("permission", listAuthority)
+            .build();
 
         JwsHeader jwsHeader = JwsHeader.with(JWT_ALGORITHM).build();
         return this.jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, claims)).getTokenValue();
@@ -77,11 +77,11 @@ public class SecurityUtil {
 
         // @formatter:off
         JwtClaimsSet claims = JwtClaimsSet.builder()
-                .issuedAt(now)
-                .expiresAt(validity)
-                .subject(email)
-                .claim("user", dto.getUser())
-                .build();
+            .issuedAt(now)
+            .expiresAt(validity)
+            .subject(email)
+            .claim("user", dto.getUser())
+            .build();
 
         JwsHeader jwsHeader = JwsHeader.with(JWT_ALGORITHM).build();
         return this.jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, claims)).getTokenValue();
@@ -95,16 +95,16 @@ public class SecurityUtil {
     }
 
     public Jwt checkValidRefreshToken(String token){
-        NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withSecretKey(
+     NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withSecretKey(
                 getSecretKey()).macAlgorithm(SecurityUtil.JWT_ALGORITHM).build();
-        try {
-            return jwtDecoder.decode(token);
-        } catch (Exception e) {
-            System.out.println(">>> Refresh Token error: " + e.getMessage());
-            throw e;
-        }
+                try {
+                     return jwtDecoder.decode(token);
+                } catch (Exception e) {
+                    System.out.println(">>> Refresh Token error: " + e.getMessage());
+                    throw e;
+                }
     }
-
+    
     /**
      * Get the login of the current user.
      *
@@ -136,8 +136,8 @@ public class SecurityUtil {
     public static Optional<String> getCurrentUserJWT() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         return Optional.ofNullable(securityContext.getAuthentication())
-                .filter(authentication -> authentication.getCredentials() instanceof String)
-                .map(authentication -> (String) authentication.getCredentials());
+            .filter(authentication -> authentication.getCredentials() instanceof String)
+            .map(authentication -> (String) authentication.getCredentials());
     }
 
     /**
